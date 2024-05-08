@@ -8,23 +8,23 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
 
 	// root application context(Root WebApplicationContext)
-	// ¿¡ Àû¿ëÇÏ´Â ¼³Á¤ Å¬·¡½º ÁöÁ¤ ¸Ş¼Òµå
+	// ì— ì ìš©í•˜ëŠ” ì„¤ì • í´ë˜ìŠ¤ ì§€ì • ë©”ì†Œë“œ
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {RootConfig.class}; // RootConfig Å¬·¡½º ¸®ÅÏ
+		return new Class[] {RootConfig.class}; // RootConfig í´ë˜ìŠ¤ ë¦¬í„´
 	}
 
 	// servlet application context(Servlet WebApplicationContext)
-	// ¿¡ Àû¿ëÇÏ´Â ¼³Á¤ Å¬·¡½º ÁöÁ¤ ¸Ş¼Òµå
+	// ì— ì ìš©í•˜ëŠ” ì„¤ì • í´ë˜ìŠ¤ ì§€ì • ë©”ì†Œë“œ
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		
-		return new Class[] {ServletConfig.class}; // ServletConfig Å¬·¡½º ¸®ÅÏ
+		return new Class[] {ServletConfig.class}; // ServletConfig í´ë˜ìŠ¤ ë¦¬í„´
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] {"/"}; // ±âº» °æ·Î ¸®ÅÏ
+		return new String[] {"/"}; // ê¸°ë³¸ ê²½ë¡œ ë¦¬í„´
 	}
 	
 	@Override
@@ -36,3 +36,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	}
 
 }
+
+
+
+

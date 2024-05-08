@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-// servlet-context.xml°ú µ¿ÀÏ
-@Configuration // Spring Container¿¡¼­ °ü¸®ÇÏ´Â ¼³Á¤ Å¬·¡½º
-@EnableWebMvc // Spring MVC ±â´É »ç¿ë
-@ComponentScan(basePackages = {"com.everytime.web"}) // component scan ¼³Á¤
+// servlet-context.xmlê³¼ ë™ì¼
+@Configuration // Spring Containerì—ì„œ ê´€ë¦¬í•˜ëŠ” ì„¤ì • í´ë˜ìŠ¤
+@EnableWebMvc // Spring MVC ê¸°ëŠ¥ ì‚¬ìš©
+@ComponentScan(basePackages = {"com.everytime.web"}) // component scan ì„¤ì •
 public class ServletConfig implements WebMvcConfigurer {
 	
-	// ViewResolver ¼³Á¤ ¸Ş¼Òµå
+	// ViewResolver ì„¤ì • ë©”ì†Œë“œ
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -23,13 +23,19 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.viewResolver(viewResolver);
 	}
 	
-	// ResourceHandlers ¼³Á¤ ¸Ş¼Òµå
+	// ResourceHandlers ì„¤ì • ë©”ì†Œë“œ
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// resources µğ·ºÅä¸® ¼³Á¤
+		// resources ë””ë ‰í† ë¦¬ ì„¤ì •
 		registry.addResourceHandler("/resources/**")
 			.addResourceLocations("/resources/");
 	}
 	
 	
 } // end ServletConfig
+
+
+
+
+
+

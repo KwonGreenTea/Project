@@ -15,28 +15,28 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-// root-context.xml°ú µ¿ÀÏ
+// root-context.xmlê³¼ ë™ì¼
 @Configuration
 @ComponentScan(basePackages = { "com.everytime.web.service" })
 @ComponentScan(basePackages = { "com.everytime.web.aspect" })
-@EnableAspectJAutoProxy // AutoProxy »ç¿ëÀ» À§ÇÑ ¾î³ëÅ×ÀÌ¼Ç
-@MapperScan(basePackages = { "com.everytime.web.persistence" }) // ÆĞÅ°Áö °æ·Î·Î Mapper ½ºÄ³´×
+@EnableAspectJAutoProxy // AutoProxy ì‚¬ìš©ì„ ìœ„í•œ ì–´ë…¸í…Œì´ì…˜
+@MapperScan(basePackages = { "com.everytime.web.persistence" }) // íŒ¨í‚¤ì§€ ê²½ë¡œë¡œ Mapper ìŠ¤ìºë‹
 public class RootConfig {
 
-	@Bean // ½ºÇÁ¸µ beanÀ¸·Î ¼³Á¤. xmlÀÇ <bean> ÅÂ±×¿Í µ¿ÀÏ
+	@Bean // ìŠ¤í”„ë§ beanìœ¼ë¡œ ì„¤ì •. xmlì˜ <bean> íƒœê·¸ì™€ ë™ì¼
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
-		config.setDriverClassName("oracle.jdbc.OracleDriver");// jdbc µå¶óÀÌ¹ö Á¤º¸
-		config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe"); // DB ¿¬°á url
-		config.setUsername("STUDY"); // DB »ç¿ëÀÚ ¾ÆÀÌµğ
-		config.setPassword("1234"); // DB »ç¿ëÀÚ ºñ¹Ğ¹øÈ£
+		config.setDriverClassName("oracle.jdbc.OracleDriver");// jdbc ë“œë¼ì´ë²„ ì •ë³´
+		config.setJdbcUrl("jdbc:oracle:thin:@192.168.0.107:1521:xe"); // DB ì—°ê²° url
+		config.setUsername("PROJECT"); // DB ì‚¬ìš©ì ì•„ì´ë””
+		config.setPassword("1234"); // DB ì‚¬ìš©ì ë¹„ë°€ë²ˆí˜¸
 
-		config.setMaximumPoolSize(50); // ÃÖ´ë Ç®(Pool) Å©±â ¼³Á¤
-		config.setConnectionTimeout(30000); // Connection Å¸ÀÓ ¾Æ¿ô ¼³Á¤(30ÃÊ)
+		config.setMaximumPoolSize(50); // ìµœëŒ€ í’€(Pool) í¬ê¸° ì„¤ì •
+		config.setConnectionTimeout(30000); // Connection íƒ€ì„ ì•„ì›ƒ ì„¤ì •(30ì´ˆ)
 		HikariDataSource ds = new HikariDataSource(config);
-		// config °´Ã¼¸¦ ÂüÁ¶ÇÏ¿© DataSource °´Ã¼ »ı¼º
+		// config ê°ì²´ë¥¼ ì°¸ì¡°í•˜ì—¬ DataSource ê°ì²´ ìƒì„±
 
-		return ds; // ds °´Ã¼ ¸®ÅÏ
+		return ds; // ds ê°ì²´ ë¦¬í„´
 	}
 
 	@Bean
@@ -46,7 +46,7 @@ public class RootConfig {
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
 	}
 
-	// Æ®·£Àè¼Ç ¸Å´ÏÀú °´Ã¼¸¦ ºóÀ¸·Î µî·Ï
+	// íŠ¸ëœì­ì…˜ ë§¤ë‹ˆì € ê°ì²´ë¥¼ ë¹ˆìœ¼ë¡œ ë“±ë¡
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());

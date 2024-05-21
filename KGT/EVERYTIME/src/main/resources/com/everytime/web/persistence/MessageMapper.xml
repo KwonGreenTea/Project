@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.everytime.web.persistence.MessageMapper">
+
+   <resultMap type="com.everytime.web.domain.MessageVO"
+      id="messageResultMap">
+      
+      <result property="messageId" column="MESSAGE_ID" /> 
+       <result property="memberId" column="MEMBER_ID" />
+       <result property="recvMemberId" column="RECV_MEMBER_ID" />
+       <result property="sendMemberNickname" column="SEND_MEMBER_NICKNAME" />
+       <result property="messageContent" column="MESSAGE_CONTENT" />
+       <result property="messageDate" column="MESSAGE_DATE"/>
+   </resultMap>
+   <!-- RegisterVO 클래스와 데이터베이스 테이블 간의 매핑 정보를 지정
+      RegisterVO 클래스의 각 프로퍼티와 데이터베이스 테이블의 컬럼 간의 매핑을 정의
+      이를 통해 MyBatis는 데이터베이스에서 가져온 결과를 RegisterVO 객체로 매핑할 때 사용
+    -->
+
+   
+
+</mapper>

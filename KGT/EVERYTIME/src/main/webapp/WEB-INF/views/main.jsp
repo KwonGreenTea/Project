@@ -5,14 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="main" method="post">
-		<label>메인화면입니다.</label>
-	</form>
+	<label>메인화면입니다.</label>
 
+<!-- 
 	<h2>친구 추가 기능</h2>
 	<form action="main/friend" method="post">
 		<label for="responseId">친구 아이디:</label> <input type="text"
@@ -52,8 +51,9 @@
 			</c:if>
 		</c:forEach>
 	</ul>
+	 -->
 
-	<a href="chat">쪽지</a>
+	<a href="chat">채팅</a>
 
 	<a href="timetable">시간표</a>
 

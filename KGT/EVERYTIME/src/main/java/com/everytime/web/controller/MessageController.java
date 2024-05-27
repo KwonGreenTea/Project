@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MessageController {
     
-    @GetMapping("/chat")
+    @GetMapping("/message")
     public String messageGet(HttpServletRequest request, RedirectAttributes reAttr) throws Exception{
         log.info("messageGet()");
         return "message";

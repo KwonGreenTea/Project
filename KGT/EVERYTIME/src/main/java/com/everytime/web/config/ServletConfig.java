@@ -39,7 +39,7 @@ public class ServletConfig implements WebMvcConfigurer, WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chatHandler(), "/chat/message-ws").setAllowedOrigins("*");
+		registry.addHandler(chatHandler(), "/chat/message-ws/{chatRoomId}").setAllowedOrigins("*");
 	}
 
 	@Bean

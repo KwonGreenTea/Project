@@ -17,35 +17,34 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.everytime.web.service"})
-@ComponentScan(basePackages = {"com.everytime.web.aspect"})
+@ComponentScan(basePackages = { "com.everytime.web.service", "com.everytime.web.aspect" })
 @EnableAspectJAutoProxy
-@MapperScan(basePackages = {"com.everytime.web.persistence"})
-@EnableTransactionManagement // Æ®·£Àè¼Ç °ü¸® È°¼ºÈ­
+@MapperScan(basePackages = { "com.everytime.web.persistence" })
+@EnableTransactionManagement // íŠ¸ëœì­ì…˜ ê´€ë¦¬ í™œì„±í™”
 public class RootConfig {
-	
+
 	@Bean
-	public DataSource dataSource() { // DataSource °´Ã¼ ¸®ÅÏ ¸Ş¼­µå
-		HikariConfig config = new HikariConfig(); // ¼³Á¤ °´Ã¼
-		config.setDriverClassName("oracle.jdbc.OracleDriver"); // jdbc µå¶óÀÌ¹ö Á¤º¸
-		config.setJdbcUrl("jdbc:oracle:thin:@192.168.0.107:1521:xe"); // DB ¿¬°á url
-		config.setUsername("PROJECT"); // DB »ç¿ëÀÚ ¾ÆÀÌµğ
-		config.setPassword("1234"); // DB »ç¿ëÀÚ ºñ¹Ğ¹øÈ£
-		
-		config.setMaximumPoolSize(50); // ÃÖ´ë Ç®(Pool) Å©±â ¼³Á¤
-		config.setConnectionTimeout(30000); // Connection Å¸ÀÓ ¾Æ¿ô ¼³Á¤(30ÃÊ)
-		HikariDataSource ds = new HikariDataSource(config); // config °´Ã¼¸¦ ÂüÁ¶ÇÏ¿© DataSource °´Ã¼ »ı¼º
-		return ds; // ds °´Ã¼ ¸®ÅÏ
+	public DataSource dataSource() { // DataSource ë¹ˆ ìƒì„± ë©”ì„œë“œ
+		HikariConfig config = new HikariConfig(); // ì„¤ì • ê°ì²´ ìƒì„±
+		config.setDriverClassName("oracle.jdbc.OracleDriver"); // JDBC ë“œë¼ì´ë²„ í´ë˜ìŠ¤ëª… ì„¤ì •
+		config.setJdbcUrl("jdbc:oracle:thin:@192.168.0.107:1521:xe"); // DB ì ‘ì† URL ì„¤ì •
+		config.setUsername("PROJECT"); // DB ê³„ì • ì´ë¦„ ì„¤ì •
+		config.setPassword("1234"); // DB ê³„ì • ë¹„ë°€ë²ˆí˜¸ ì„¤ì •
+
+		config.setMaximumPoolSize(50); // ìµœëŒ€ ì»¤ë„¥ì…˜ í’€ í¬ê¸° ì„¤ì •
+		config.setConnectionTimeout(30000); // ì»¤ë„¥ì…˜ íƒ€ì„ì•„ì›ƒ ì„¤ì • (30ì´ˆ)
+		HikariDataSource ds = new HikariDataSource(config); // ì„¤ì • ê°ì²´ë¥¼ ì‚¬ìš©í•˜ì—¬ DataSource ë¹ˆ ìƒì„±
+		return ds; // DataSource ë¹ˆ ë°˜í™˜
 	}
-	
+
 	@Bean
-	public SqlSessionFactory sqlSessionFactory() throws Exception { 
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource());
 		return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
 	}
-	
-	// Æ®·£Àè¼Ç ¸Å´ÏÀú °´Ã¼¸¦ ºóÀ¸·Î µî·Ï
+
+	// íŠ¸ëœì­ì…˜ ê´€ë¦¬ ë¹ˆì„ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());

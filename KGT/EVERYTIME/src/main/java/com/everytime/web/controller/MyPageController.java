@@ -40,7 +40,6 @@ public class MyPageController {
 			return "redirect:/login";
 		} else {
 			registerVO = registerService.getRegisterById(memberId);
-			log.info(registerVO);
 
 			model.addAttribute("registerVO", registerVO);
 		}
@@ -69,7 +68,6 @@ public class MyPageController {
 		} else {
 			log.info("changePwPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, password, "", "", "", "");
-			log.info(registerVO);
 			model.addAttribute("registerVO", registerVO);
 			return "changePw";
 		}
@@ -104,7 +102,6 @@ public class MyPageController {
 		} else {
 			log.info("changeEmailPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, "", "", "", email, "");
-			log.info(registerVO);
 			model.addAttribute("registerVO", registerVO);
 			return "changeEmail";
 		}
@@ -139,7 +136,6 @@ public class MyPageController {
 		} else {
 			log.info("changeNickPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, "", nickname, "", "", "");
-			log.info(registerVO);
 			model.addAttribute("registerVO", registerVO);
 			return "changeNick";
 		}

@@ -16,6 +16,7 @@
         h2 {
             text-align: center;
             margin-top: 50px;
+            color: #007bff; /* 파란색 */
         }
 
         form {
@@ -31,11 +32,12 @@
             display: block;
             font-weight: bold;
             margin-bottom: 10px;
+            color: #007bff; /* 파란색 */
         }
 
         input[type="text"],
         input[type="password"] {
-            width: 100%;
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
@@ -51,6 +53,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s; /* 배경색 전환 효과 */
         }
 
         input[type="submit"]:hover {
@@ -70,16 +73,34 @@
         a:hover {
             color: #0056b3; /* 파란색 조금 진한 색 */
         }
+
+        .link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <h2>회원 로그인</h2>
+
 <form action="login" method="post">
-    <label for="memberId">아이디:</label>
+    <label for="memberId">아이디</label>
     <input type="text" id="memberId" name="memberId" required><br><br>
     
-    <label for="password">비밀번호:</label>
+    <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" required><br><br>
     
     <input type="submit" value="로그인">

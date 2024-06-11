@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class ChatListVO {
 
-	private int chat_id;
+	private int room_id;
 	private String chat_title;
 	private int chat_count;
 }

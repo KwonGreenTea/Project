@@ -19,10 +19,10 @@ public interface FriendMapper {
     // 친구 목록 조회 메서드
     List<String> UserAccept(String requestId);
 
-    List<FriendVO> FriendAccept(@Param("requestId") String requestId, @Param("responseId") String responseId);
+    FriendVO FriendAccept(@Param("requestId") String requestId, @Param("responseId") String responseId);
 
     // 친구 요청 여부 확인 메서드
-    FriendVO checkFriend(@Param("requestId") String requestId, @Param("responseId") String responseId);
+    List<FriendVO> checkFriend(@Param("requestId") String requestId, @Param("responseId") String responseId);
 
     // 친구 요청 수락 메서드
     int acceptFriend(@Param("requestId") String requestId, @Param("responseId") String responseId);

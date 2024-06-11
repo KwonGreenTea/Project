@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="status" column="STATUS" />
 	</resultMap>
 
+	<!-- 친구 추가 기능 -->
 	<insert id="insert">
 		INSERT ALL
 		INTO FRIEND (REQUEST_ID,RESPONSE_ID,STATUS) VALUES (#{requestId},
@@ -23,16 +24,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	
-	<!-- 내가 친구 요청을 한 사람인지 -->
+	<!-- 서로 친구 요청을 한 사람인지 -->
 	<select id ="checkFriend" resultMap ="friendResultMap">
 		SELECT * FROM FRIEND
 		WHERE REQUEST_ID = #{requestId} AND RESPONSE_ID = #{responseId} AND STATUS = 'ACCEPT'
+		or REQUEST_ID = #{responseId} AND RESPONSE_ID = #{requestId} AND STATUS = 'ACCEPT'
 	</select>
 
 	<!-- 친구 요청 조회기능 -->
 	<select id="checkRequest" resultMap="friendResultMap">
-		SELECT * FROM FRIEND WHERE
-		REQUEST_ID = #{requestId} AND STATUS = 'WAITING'
+		SELECT * FROM FRIEND 
+		WHERE REQUEST_ID = #{requestId} AND STATUS = 'WAITING'
 	</select>
 
 	<!-- 내가 수락한 친구 -->
@@ -40,10 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT RESPONSE_ID FROM FRIEND
 		WHERE REQUEST_ID = #{requestId} AND STATUS = 'ACCEPT' 
 	</select>
-	<!-- 친구 중, 나를 수락한 친구 -->
+	<!-- 내가 수락한 친구가, 나를 수락한 친구 -->
 	<select id='FriendAccept' resultMap="friendResultMap">
 		SELECT * FROM FRIEND
-		WHERE REQUEST_ID = #{reqeustId} AND RESPONSE_ID = #{responseId} AND STATUS = 'ACCEPT'
+		WHERE REQUEST_ID = #{requestId} AND RESPONSE_ID = #{responseId} AND STATUS = 'ACCEPT'
 	</select>
 
 
@@ -53,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		= #{requestId} AND RESPONSE_ID = #{responseId} 
 	</update>
 	
-	<!-- 친구 요청 거절 -->
+	<!-- 친구 요청 거절  -->
 	<delete id="deleteFriend">
 		DELETE FROM FRIEND
 		WHERE REQUEST_ID = #{requestId} AND RESPONSE_ID = #{responseId}

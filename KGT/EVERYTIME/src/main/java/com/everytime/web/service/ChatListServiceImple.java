@@ -24,13 +24,18 @@ public class ChatListServiceImple implements ChatListService {
 	}
 
 	@Override
-	public int roomCount(String chat_title) {
-		return chatListMapper.selectByName(chat_title);
+	public int roomCount(String room_id) {
+		return chatListMapper.selectByName(room_id);
 	}
 
 	@Override
 	public List<ChatListVO> allRoom() {
 		return chatListMapper.allRoom();
+	}
+
+	@Override
+	public int roomCountChange(String room_id, int chat_count) {
+		return chatListMapper.updateCount(room_id, chat_count);
 	}
 	
 }

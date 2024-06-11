@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.everytime.web.domain.FriendVO;
+import com.everytime.web.domain.RegisterVO;
 import com.everytime.web.persistence.FriendMapper;
+import com.everytime.web.persistence.RegisterMapper;
+
 import lombok.extern.log4j.Log4j;
 
 @Service
@@ -17,6 +20,9 @@ public class FriendServiceImple implements FriendService{
 	
 	@Autowired
 	private FriendMapper friendMapper;
+	
+	@Autowired
+	private RegisterMapper registerMapper;
 	
 	@Override
 	public int createFriend(String requestId, String responseId) {
@@ -37,7 +43,7 @@ public class FriendServiceImple implements FriendService{
 	}
 
 	@Override
-	public FriendVO checkFriend(String requestId, String responseId) {
+	public List<FriendVO> checkFriend(String requestId, String responseId) {
 		log.info("checkFriend");
 		return friendMapper.checkFriend(requestId, responseId);
 	}
@@ -56,8 +62,14 @@ public class FriendServiceImple implements FriendService{
 
 	@Override
 	public FriendVO FriendAccept(String requestId, String responseId) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("friendAccept");
+		return friendMapper.FriendAccept(requestId, responseId);
+	}
+	
+	@Override
+	public RegisterVO getRegisterById(String memberId) {
+		log.info("getRegisterById()");
+		return registerMapper.selectByRegisterId(memberId);
 	}
 
 	

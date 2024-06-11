@@ -10,10 +10,14 @@ public interface RegisterService {
 	List<Integer> getAllId();
 	int updateRegister(RegisterVO registerVO);
 	int deleteRegister(String memberId);
+	boolean unregister(String memberId, String password);
 	
+	int updatePassword(RegisterVO registerVO);
+	int updateEmail(RegisterVO registerVO);
+	int updateNickname(RegisterVO registerVO);
+	int checkId(String memberId);
+	int verifyPw(RegisterVO registerVO);
 	int updatePassword(String memberId, String password);
 	int updateEmail(String memberId, String email);
 	int updateNickname(String memberId, String nickname);
-	int verifyPw(RegisterVO registerVO);
-	
 }

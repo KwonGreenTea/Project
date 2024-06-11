@@ -35,6 +35,13 @@ public class RegisterServiceImple implements RegisterService {
 	}
 	
 	@Override
+	public int checkId(String memberId) {
+		int result = registerMapper.checkId(memberId);
+		System.out.println("result: " + result);
+		return result;
+	}
+	
+	@Override
 	public int updateRegister(RegisterVO registerVO) {
 		log.info("updateRegister()");
 		return registerMapper.update(registerVO);
@@ -43,15 +50,42 @@ public class RegisterServiceImple implements RegisterService {
 	@Override
 	public int deleteRegister(String memberId) {
 		log.info("deleteRegister()");
-		return registerMapper.delete(memberId);
+	    return registerMapper.delete(memberId);
 	}
 	
+	@Override
+	public boolean unregister(String memberId, String password) {
+		RegisterVO registerVO = getRegisterById(memberId);
+		if(registerVO != null && registerVO.getPassword().equals(password)) {
+			return deleteRegister(memberId) > 0;
+		}
+		return false;
+	}
+
+	@Override
+	public int updatePassword(RegisterVO registerVO) {
+		log.info("updatePassword()");
+		return registerMapper.updatePassword(registerVO);
+	}
+
+	@Override
+	public int updateEmail(RegisterVO registerVO) {
+		log.info("updateEmail()");
+		return registerMapper.updateEmail(registerVO);
+	}
+
+	@Override
+	public int updateNickname(RegisterVO registerVO) {
+		log.info("updateNickname()");
+		return registerMapper.updateNickname(registerVO);
+	}
+
 	@Override
 	public int verifyPw(RegisterVO registerVO) {
 		// log.info("verifyPw()");
 		return registerMapper.verifyPw(registerVO);
 	}
-
+	
 	@Override
 	public int updatePassword(String memberId, String password) {
 		log.info("updatePassword()");
@@ -69,5 +103,4 @@ public class RegisterServiceImple implements RegisterService {
 		log.info("updateNickname()");
 		return registerMapper.updateNickname(memberId, nickname);
 	}
-	
 }

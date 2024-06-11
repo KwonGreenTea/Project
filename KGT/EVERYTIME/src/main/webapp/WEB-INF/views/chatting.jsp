@@ -6,6 +6,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://everytime.kr/css/common.css" />
+<link rel="stylesheet"
+	href="https://everytime.kr/css/common.partial.css" />
+<link rel="stylesheet"
+	href="https://everytime.kr/css/container.article.css" />
+<link rel="stylesheet"
+	href="https://everytime.kr/css/container.community.css" />
+<link rel="stylesheet"
+	href="https://everytime.kr/css/container.modal.css" />
 <meta charset="UTF-8">
 <title>채팅</title>
 <script
@@ -21,7 +30,7 @@ body {
 #container {
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	height: calc(100vh - 82px);
 }
 
 #roomList {
@@ -232,7 +241,7 @@ body {
 
 		// 데이터베이스에 채팅 데이터 입력
 		var dt = new Date();
-		var obj = { 
+		var obj = {
 			'room_id' : chatRoomId,
 			'nickname' : nickname,
 			'chat_content' : msg,
@@ -337,6 +346,8 @@ body {
 					},
 					success : function(response) {
 						alert('채팅방이 생성되었습니다!');
+
+						window.location.href = "chat";
 					},
 					error : function(xhr, status, error) {
 						alert('오류가 발생했습니다: ' + error);
@@ -350,14 +361,39 @@ body {
 </script>
 </head>
 <body>
+<nav>
+		<div class="wrap">
+			<div id="logo">
+				<a href="main"><img src="/images/logo.png"></a>
+				<p>
+					<span class="name multiple">에브리타임</span><span class="subname">솔데스크대
+						강남캠</span>
+				</p>
+			</div>
+			<div id="account">
+				<a href="chat" title="쪽지함" class="icon message">쪽지함</a> <a
+					href="mypage" title="내 정보" class="icon my">내 정보</a>
+				<!--  <input
+					type="hidden" id="userUserid" value="iparknoori"> <input
+					type="hidden" id="userSchool" value="4"> <input
+					type="hidden" id="userCampus" value="23">-->
+			</div>
+			<ul id="menu">
+				<li class="active"><a href="main">게시판</a></li>
+				<li><a href="timetable">시간표</a></li>
+				<li><a href="course">강의실</a></li>
+				<!-- <li><a href="/calculator">학점계산기</a></li>-->
+				<li><a href="frd">친구</a></li>
+			</ul>
+		</div>
+	</nav>
 	<input type="hidden" id="nickname" value="${registerVO.nickname }">
 	<div id="container">
 		<div id="roomList">
 			<h2>채팅방 리스트</h2>
 			<ul>
 				<c:forEach var="ChatListVO" items="${chatList}">
-					<li data-chatroomid="${ChatListVO.chat_id}">${ChatListVO.chat_title}
-						: ${ChatListVO.chat_count}명 참여중</li>
+					<li data-chatroomid="${ChatListVO.room_id}">${ChatListVO.chat_title}</li>
 				</c:forEach>
 			</ul>
 			<input type="button" id="newChatBtn" value="채팅방 만들기">

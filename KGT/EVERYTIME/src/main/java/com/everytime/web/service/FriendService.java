@@ -3,6 +3,7 @@ package com.everytime.web.service;
 import java.util.List;
 
 import com.everytime.web.domain.FriendVO;
+import com.everytime.web.domain.RegisterVO;
 
 public interface FriendService {
 
@@ -19,11 +20,13 @@ public interface FriendService {
     FriendVO FriendAccept(String requestId, String responseId);
     
     // 이미 친구인지 확인 메서드
-    FriendVO checkFriend(String requestId, String responseId);
+    List<FriendVO> checkFriend(String requestId, String responseId);
     
     // 친구 요청 수락 메서드
     int acceptFriend(String requestId, String responseId);
     
     // 친구 요청 삭제 메서드
     int deleteFriend(String requestId, String responseId);
+
+    RegisterVO getRegisterById(String memberId);
 }

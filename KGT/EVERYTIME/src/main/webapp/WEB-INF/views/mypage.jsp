@@ -21,7 +21,7 @@ body {
 	background-color: #fff;
 	padding: 20px;
 	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 h2 {
@@ -61,13 +61,14 @@ h3 {
 }
 
 a {
-	text-decoration: none;
-	color: #007bff; 
+	text-decoration: none; /* 링크 밑줄 제거 */
+	color: #007bff; /* 파란색 */
 }
 
 a:hover {
-	color: #0056b3;
+	color: #0056b3; /* 파란색 조금 진한 색 */
 }
+
 </style>
 </head>
 <body>
@@ -89,7 +90,7 @@ a:hover {
 			<p>
 				아이디 <label>${registerVO.memberId }</label>
 			</p>
-
+			
 			<form id="pwForm" action="mypage/password" method="post">
 				<input type="hidden" id="idInput" name="id"
 					value="${registerVO.memberId}"> <input type="hidden"
@@ -153,9 +154,20 @@ a:hover {
 						});
 			</script>
 			<!-- ------------------ -->
-
-			<a href="changePw"><p>이용 제한 내역</p></a>
 		</div>
 	</div>
+	
+	
+	
+	<div class="container">
+		<h3>이용 안내</h3>
+		<a href="inquiry"><p>문의하기</p></a>
+	</div>
+	
+	<div class="container">
+		<h3>기타</h3>
+		<a href="unregister"><p>회원 탈퇴</p></a>
+	</div>
+
 </body>
 </html>

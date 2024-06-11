@@ -32,7 +32,7 @@ public class ChatController {
 
 	@Autowired
 	private ChatService chatService;
-	
+
 	@Autowired
 	private ChatListService chatListService;
 
@@ -51,7 +51,7 @@ public class ChatController {
 		} else {
 			RegisterVO registerVO = registerService.getRegisterById(memberId);
 			List<ChatListVO> chatList = chatListService.allRoom();
-
+			
 			model.addAttribute("chatList", chatList);
 			model.addAttribute("registerVO", registerVO);
 
@@ -62,7 +62,6 @@ public class ChatController {
 	@PostMapping("/chat/create")
 	public ResponseEntity<Integer> roomMakePost(@RequestParam("roomName") String chat_title) {
 		log.info("roomMakePost()");
-		// int count = chatListService.roomCount(chat_title);
 
 		int result = chatListService.createRoom(chat_title);
 
@@ -72,9 +71,9 @@ public class ChatController {
 	@PostMapping("/chat/insert")
 	public ResponseEntity<Integer> chatInsertPost(@RequestBody ChatVO chatVO) {
 		log.info("chatInsertPost()");
-		
+
 		int result = chatService.insert(chatVO);
-		
+
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 

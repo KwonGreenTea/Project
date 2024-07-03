@@ -11,15 +11,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="requestId" column="REQUEST_ID" />
 		<result property="responseId" column="RESPONSE_ID" />
 		<result property="status" column="STATUS" />
+		<result property="requestName" column="REQUEST_NAME" />
+		<result property="responseName" column="RESPONSE_NAME" />
 	</resultMap>
 
 	<!-- 친구 추가 기능 -->
 	<insert id="insert">
 		INSERT ALL
-		INTO FRIEND (REQUEST_ID,RESPONSE_ID,STATUS) VALUES (#{requestId},
-		#{responseId}, 'ACCEPT')
-		INTO FRIEND (REQUEST_ID,RESPONSE_ID,STATUS)
-		VALUES (#{responseId},#{requestId}, 'WAITING')
+		INTO FRIEND (REQUEST_ID,RESPONSE_ID,STATUS,REQUEST_NAME,RESPONSE_NAME) VALUES (#{requestId},
+		#{responseId}, 'ACCEPT', #{requestName}, #{responseName})
+		INTO FRIEND (REQUEST_ID,RESPONSE_ID,STATUS,REQUEST_NAME,RESPONSE_NAME)
+		VALUES (#{responseId},#{requestId}, 'WAITING', #{responseName}, #{requestName})
 		SELECT * FROM DUAL
 	</insert>
 
@@ -62,6 +64,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		or REQUEST_ID = #{responseId} AND RESPONSE_ID = #{requestId}
 	</delete>
 	
-	
+	<delete id="deleteUser">
+		DELETE FRIEND
+		WHERE REQUEST_ID = #{memberId} 
+		OR RESPONSE_ID = #{memberId}
+	</delete>
 
 </mapper>

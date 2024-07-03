@@ -33,7 +33,6 @@ public class RegisterController {
     @PostMapping("/register")
     public String registerPOST(RegisterVO registerVO, RedirectAttributes reAttr) {
         log.info("registerPost()");
-        log.info("registerVO = " + registerVO);
         int result = registerService.createRegister(registerVO);
         log.info(result + " 행 등록");
         
@@ -46,7 +45,6 @@ public class RegisterController {
     public int checkId(@RequestParam("memberId") String memberId, RedirectAttributes reAttr) {
     	log.info("checkId()");
     	int result = registerService.checkId(memberId);
-    	log.info(result);
     	return result;
     }
 
@@ -63,12 +61,10 @@ public class RegisterController {
         log.info("loginPOST()");
         
         RegisterVO registerVO = registerService.getRegisterById(memberId);
-        log.info(registerService.getRegisterById(memberId));
-        log.info(registerVO);
         if (registerVO != null && registerVO.getPassword().equals(password)) {
             // 세션에 로그인 정보 저장
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(600);
+            session.setMaxInactiveInterval(3600);
             session.setAttribute("memberId", memberId);
             
             // 로그인 성공 시 성공 메시지를 리다이렉트 시킴
@@ -91,31 +87,6 @@ public class RegisterController {
            session.invalidate(); // 세션 무효화
         }
         return "redirect:/login";
-    }
-    
-    // 회원 탈퇴(GET)
-    @GetMapping("/unregister")
-    public void unregister() {
-    	log.info("unregisterGET()");
-    }
-    
-    // 회원 탈퇴(POST)
-    @PostMapping("/unregister")
-    public String unregisterPOST(String password, HttpSession session, RedirectAttributes reAttr) throws Exception {
-        log.info("unregisterPOST()");
-
-        // 세션에서 사용자 아이디 가져오기
-        String memberId = (String) session.getAttribute("memberId");
-        
-        boolean success = registerService.unregister(memberId, password);
-        if (success) {
-            session.invalidate(); // 세션 무효화
-            reAttr.addFlashAttribute("successMessage", "회원 탈퇴되었습니다.");
-            return "redirect:/login";
-        } else {
-            reAttr.addFlashAttribute("errorMessage", "계정 비밀번호가 올바르지 않습니다.");
-            return "redirect:/unregister";
-        }
     }
     
     // 아이디/비밀번호 찾기(GET)

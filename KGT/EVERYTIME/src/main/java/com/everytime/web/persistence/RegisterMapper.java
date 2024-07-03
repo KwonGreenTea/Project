@@ -35,4 +35,6 @@ public interface RegisterMapper {
 
 	int updateNickname(@Param("memberId") String memberId, @Param("nickname") String nickname);
 
+	String getNameById(String memberId);
+
 }

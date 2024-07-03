@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.everytime.web.domain.InquiryVO;
 import com.everytime.web.domain.RegisterVO;
+import com.everytime.web.service.FriendService;
+import com.everytime.web.service.InquiryService;
 import com.everytime.web.service.RegisterService;
+import com.everytime.web.service.ScheduleService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,13 +29,21 @@ public class MyPageController {
 
 	@Autowired
 	private RegisterService registerService;
+	
+	@Autowired
+	private InquiryService inquiryService;
+	
+	@Autowired
+    private ScheduleService scheduleService;
+    
+    @Autowired
+    private FriendService friendService;
 
 	@GetMapping("/mypage")
 	public String mypageGET(Model model, HttpServletRequest request, RedirectAttributes reAttr) throws Exception {
 		log.info("mypage()");
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		log.info(memberId);
 
 		RegisterVO registerVO;
 		if (memberId == null) {
@@ -44,7 +56,7 @@ public class MyPageController {
 			model.addAttribute("registerVO", registerVO);
 		}
 
-		return "mypage";
+		return "mypage/mypage";
 	}
 
 	@PostMapping("/mypage/verifyPw")
@@ -69,7 +81,7 @@ public class MyPageController {
 			log.info("changePwPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, password, "", "", "", "");
 			model.addAttribute("registerVO", registerVO);
-			return "changePw";
+			return "mypage/changePw";
 		}
 	}
 
@@ -103,7 +115,7 @@ public class MyPageController {
 			log.info("changeEmailPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, "", "", "", email, "");
 			model.addAttribute("registerVO", registerVO);
-			return "changeEmail";
+			return "mypage/changeEmail";
 		}
 	}
 
@@ -137,7 +149,7 @@ public class MyPageController {
 			log.info("changeNickPOST()");
 			RegisterVO registerVO = new RegisterVO(memberId, "", nickname, "", "", "");
 			model.addAttribute("registerVO", registerVO);
-			return "changeNick";
+			return "mypage/changeNick";
 		}
 	}
 
@@ -157,4 +169,63 @@ public class MyPageController {
 			return "redirect:/main";
 		}
 	}
+	
+	@GetMapping("inquiry")
+	public String inquiryGET(HttpServletRequest request, Model model) {
+		log.info("inquiryGET()");
+		
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+
+		if (memberId == null) {
+			session.removeAttribute("memberId");
+			session.invalidate();
+			return "redirect:/login";
+		} else {
+			RegisterVO registerVO = registerService.getRegisterById(memberId);
+			log.info(registerVO);
+			model.addAttribute("registerVO", registerVO);
+		}
+		return "mypage/inquiry";
+	}
+	
+	@PostMapping("inquiry")
+	public String inquiryPOST(InquiryVO inquiryVO, RedirectAttributes reAttr) throws Exception {
+		log.info("inquiryPOST()");
+		int result = inquiryService.createInquiry(inquiryVO);
+		 
+		return "redirect:/main";
+	}
+	
+	// 회원 탈퇴(GET)
+    @GetMapping("/unregister")
+    public String unregister() {
+    	log.info("unregisterGET()");
+    	return "mypage/unregister";
+    }
+    
+    // 회원 탈퇴(POST)
+    @PostMapping("/unregister")
+    public String unregisterPOST(String password, HttpSession session, RedirectAttributes reAttr) throws Exception {
+        log.info("unregisterPOST()");
+
+        // 세션에서 사용자 아이디 가져오기
+        String memberId = (String) session.getAttribute("memberId");
+        
+        boolean success = registerService.unregister(memberId, password);
+        if (success) {
+        	int result;
+        	result = friendService.deleteUser(memberId);
+        	result = scheduleService.deleteUser(memberId);
+        	
+        	log.info(result + "명의 회원 탈퇴");
+        	
+            session.invalidate(); // 세션 무효화
+            reAttr.addFlashAttribute("successMessage", "회원 탈퇴되었습니다.");
+            return "redirect:/login";
+        } else {
+            reAttr.addFlashAttribute("errorMessage", "계정 비밀번호가 올바르지 않습니다.");
+            return "redirect:/unregister";
+        }
+    }
 }

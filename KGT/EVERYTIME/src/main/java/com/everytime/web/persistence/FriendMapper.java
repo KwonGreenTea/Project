@@ -11,7 +11,7 @@ import com.everytime.web.domain.FriendVO;
 public interface FriendMapper {
 
     // 친구 추가 메서드
-    int insert(@Param("requestId") String requestId, @Param("responseId") String responseId);
+    int insert(@Param("requestId") String requestId, @Param("responseId") String responseId, @Param("requestName") String requestName, @Param("responseName") String responseName);
 
     // 친구 요청 조회 메서드
     List<FriendVO> checkRequest(String requestId);
@@ -29,4 +29,6 @@ public interface FriendMapper {
 
     // 친구 요청 거절 메서드, 친구 삭제 메서드
     int deleteFriend(@Param("requestId") String requestId, @Param("responseId") String responseId);
+
+	int deleteUser(@Param("memberId") String memberId);
 }

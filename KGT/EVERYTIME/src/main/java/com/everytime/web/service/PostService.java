@@ -8,9 +8,9 @@ import com.everytime.web.util.Pagination;
 public interface PostService {
     int createPost(PostVO postVO);
     List<PostVO> getAllPosts(int boardId);
-    PostVO getPostById(int postId);
     int updatePost(PostVO postVO);
-    int deletePost(int postId);
     List<PostVO> getPagingPosts(Pagination pagination);
     int getTotalCount();
+	PostVO getPostById(int boardId, int postId);
+	int deletePost(int boardId, int postId);
 }

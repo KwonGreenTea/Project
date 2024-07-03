@@ -23,102 +23,113 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class FriendController {
+	
+	@Autowired
+	private RegisterService registerService;
+	
+	@Autowired
+	private FriendService friendService;
 
-   @Autowired
-   private FriendService friendService;
+	@GetMapping("/frd")
+	public String mainGET(HttpServletRequest request, Model model) {
+		log.info("frdMainGET");
 
-   @GetMapping("/frd")
-    public  String mainGET(HttpServletRequest request, Model model ) {
-        log.info("mainGET");
-        HttpSession session = request.getSession();
-        String requestId = (String) session.getAttribute("memberId");
-        if(requestId != null) {
-        log.info("requestId = " + requestId);
-        
-        // 친구 요청 리스트 가져오기
-        List<FriendVO> requestList = friendService.checkRequest(requestId);
+		HttpSession session = request.getSession();
+		String requestId = (String) session.getAttribute("memberId");
+		if (requestId != null) {
 
-        // 내가 수락한 친구 목록 조회
-        List<String> acceptlist = friendService.UserAccept(requestId);
+			// 친구 요청 리스트 가져오기
+			List<FriendVO> requestList = friendService.checkRequest(requestId);
 
-        log.info("friendlist = " + acceptlist);
-        
-        List<FriendVO> friendlist = new ArrayList<FriendVO>();
-        
-        for(int i = 0; i < acceptlist.size(); i++) {
-           // 내가 수락한 친구가, 나를 수락한 경우
-            friendlist.add(friendService.FriendAccept(acceptlist.get(i), requestId));
-            log.info(requestId);
-        }
-        log.info(friendlist);
-        
-        model.addAttribute("friendlist", friendlist);
-        model.addAttribute("requestList", requestList);
-        return "/frd";
-        }   else {
-           log.info("로그인 후 이용하세요");
-           return "redirect:/login";
-        }
-    }
+			// 내가 수락한 친구 목록 조회
+			List<String> acceptlist = friendService.UserAccept(requestId);
 
-   // 친구 추가 메서드 (POST)
-   @PostMapping("/frd/friend")
-   public String mainFriendPOST(String responseId, HttpServletRequest request, RedirectAttributes reAttr) {
+			List<FriendVO> friendlist = new ArrayList<FriendVO>();
+
+			for (int i = 0; i < acceptlist.size(); i++) {
+				// 내가 수락한 친구가, 나를 수락한 경우
+				friendlist.add(friendService.FriendAccept(acceptlist.get(i), requestId));
+			}
+
+			model.addAttribute("friendlist", friendlist);
+			model.addAttribute("requestList", requestList);
+			return "friend/frd";
+			
+		} else {
+			log.info("로그인 후 이용하세요");
+			return "redirect:/login";
+		}
+	}
+
+	// 친구 추가 메서드 (POST)
+	@PostMapping("/frd/friend")
+   public String mainFriendPOST(String responseId, HttpServletRequest request,
+         RedirectAttributes reAttr) {
       log.info("mainFriendPOST()");
-
+      
       HttpSession session = request.getSession();
       String requestId = (String) session.getAttribute("memberId");
-   if(requestId != null) {
-      log.info("requestId = " + requestId + ", responseId = " + responseId);
-
-      RegisterVO registerVO = friendService.getRegisterById(responseId);
-
-      List<FriendVO> friendVO = friendService.checkFriend(requestId, responseId);
-
-      log.info("gg " + friendVO);
-      if (registerVO != null && !requestId.equals(responseId)) { // 등록된 ID가 아니거나 , 자신에게 친구 추가 불가
-         if (friendVO == null) {
-            int result = friendService.createFriend(requestId, responseId);
-            log.info(result + " 건 추가됨");
+      int result = 0;
+      if (requestId != null) {
+         RegisterVO registerVO = friendService.getRegisterById(responseId);
+         List<FriendVO> checkList = friendService.checkFriend(requestId, responseId);
+         if (registerVO != null && !requestId.equals(responseId)) { // 등록된 ID가 아니거나 , 자신에게 친구 추가 불가
+            if (checkList.isEmpty()) {
+            	String requestName = registerService.getNameById(requestId);
+            	String responseName = registerService.getNameById(responseId);;
+            	
+               result = friendService.createFriend(requestId, responseId, requestName, responseName);
+               log.info(result + " 건 추가됨");
+               reAttr.addFlashAttribute("errorMessage", "친구 요청을 보냈습니다");
+               
+               return "redirect:/frd";
+                  
+            } else {
+               log.info("올바르지 않은 상대 입니다");
+               reAttr.addFlashAttribute("errorMessage", "이미 친구인 상대. 혹은 친구 요청을 확인하세요");
+               return "redirect:/frd";
+            }
          } else {
-            log.info("이미 친구로 추가된 상태입니다 혹은 친구 수락버튼을 눌러주세요");
+            log.info("올바르지 않은 상대 입니다");
+            reAttr.addFlashAttribute("errorMessage", "올바르지 않은 상대 입니다");
+            
+            return "redirect:/frd";
          }
-      } else {
-         log.info("아이디가 존재하지 않거나 자기 자신은 친구추가가 안됩니다");
-      }
 
-      return "redirect:/main";
       } else {
          log.info("로그인 후 이용하세요");
-         return "redirect:/login";
+         reAttr.addFlashAttribute("errorMessage", "로그인 후 이용하세요");
+         return "redirect:/frd";
+
       }
    }
 
-   @PostMapping("/frd/accept")
-   public String mainAcceptPOST(String responseId, HttpServletRequest request, RedirectAttributes reAttr) {
-      log.info("mainAcceptPOST()");
-      HttpSession session = request.getSession();
-      String requestId = (String) session.getAttribute("memberId");
+	@PostMapping("/frd/accept")
+	public String mainAcceptPOST(String responseId, HttpServletRequest request, RedirectAttributes reAttr) {
+		log.info("mainAcceptPOST()");
+		HttpSession session = request.getSession();
+		String requestId = (String) session.getAttribute("memberId");
 
-      int result = friendService.acceptFriend(requestId, responseId);
-      log.info(result + " 건 수락됨");
+		int result = friendService.acceptFriend(requestId, responseId);
+		log.info(result + " 건 수락됨");
+		reAttr.addFlashAttribute("errorMessage", "친구 수락이 완료 되었습니다.");
+		return "redirect:/frd";
+	}
 
-      return "redirect:/main";
-   }
+	@PostMapping("/frd/delete")
+	public String mainRefusePOST(String responseId, HttpServletRequest request, RedirectAttributes reAttr) {
+		log.info("mainRefusePOST()");
 
-   @PostMapping("/frd/delete")
-   public String mainRefusePOST(String responseId, HttpServletRequest request, RedirectAttributes reAttr) {
-      log.info("mainRefusePOST()");
+		HttpSession session = request.getSession();
+		String requestId = (String) session.getAttribute("memberId");
 
-      HttpSession session = request.getSession();
-      String requestId = (String) session.getAttribute("memberId");
+		log.info("requestId = " + requestId + ", responseId = " + responseId);
 
-      log.info("requestId = " + requestId + ", responseId = " + responseId);
+		int result = friendService.deleteFriend(requestId, responseId);
+		log.info(result + " 건 삭제됨");
 
-      int result = friendService.deleteFriend(requestId, responseId);
-      log.info(result + " 건 삭제됨");
-
-      return "redirect:/frd";
-   }
+		reAttr.addFlashAttribute("errorMessage", "삭제 되었습니다.");
+		return "redirect:/frd";
+	}
 
 }

@@ -25,9 +25,9 @@ public class FriendServiceImple implements FriendService{
 	private RegisterMapper registerMapper;
 	
 	@Override
-	public int createFriend(String requestId, String responseId) {
+	public int createFriend(String requestId, String responseId, String requestName, String responseName) {
 		log.info("createFriend");
-		return friendMapper.insert(requestId, responseId);
+		return friendMapper.insert(requestId, responseId, requestName, responseName);
 	}
 
 	@Override
@@ -70,6 +70,12 @@ public class FriendServiceImple implements FriendService{
 	public RegisterVO getRegisterById(String memberId) {
 		log.info("getRegisterById()");
 		return registerMapper.selectByRegisterId(memberId);
+	}
+
+	@Override
+	public int deleteUser(String memberId) {
+		log.info("deleteUser()");
+		return friendMapper.deleteUser(memberId);
 	}
 
 	

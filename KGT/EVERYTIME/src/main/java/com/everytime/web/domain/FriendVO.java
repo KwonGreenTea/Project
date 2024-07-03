@@ -16,6 +16,6 @@ public class FriendVO {
 	private String requestId;
 	private String responseId;
 	private String status;
-
-	
+	private String requestName;
+	private String responseName;
 }

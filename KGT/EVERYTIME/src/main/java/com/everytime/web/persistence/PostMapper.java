@@ -3,6 +3,7 @@ package com.everytime.web.persistence;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.everytime.web.domain.PostVO;
 import com.everytime.web.util.Pagination;
@@ -15,8 +16,9 @@ public interface PostMapper {
 	List<PostVO> selectPostList(int boardId); // 전체 게시글 조회
 	PostVO selectOne(int boardId); // 특정 게시글 조회
 	int update(PostVO boardVO); // 특정 게시글 수정
-	int delete(int boardId); // 특정 게시글 삭제
 	// 전체 게시글 페이징 처리
 	List<PostVO> selectListByPagination(Pagination pagination);
 	int selectTotalCount();
+	int delete(int boardId, int postId);
+	PostVO getPostById(@Param("postId") int postId, @Param("boardId") int boardId);
 }

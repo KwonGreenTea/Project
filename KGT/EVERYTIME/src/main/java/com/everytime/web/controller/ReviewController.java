@@ -3,8 +3,6 @@ package com.everytime.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,12 +27,14 @@ public class ReviewController {
    private ReviewService reviewService;
 
    @GetMapping("/course")
-   public void courseGET(Model model) {
+   public String courseGET(Model model) {
       log.info("courseGET()");
       // 모든 리뷰를 가져온다
       // List<ReviewVO> reviewList = reviewService.selectAllReview();
 
       // model.addAttribute("reviewList", reviewList);
+      
+      return "course/course";
    }
 
    @GetMapping("write")

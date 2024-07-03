@@ -8,7 +8,7 @@ import com.everytime.web.domain.RegisterVO;
 public interface FriendService {
 
     // 친구 추가 메서드
-    int createFriend(String requestId, String responseId);
+    int createFriend(String requestId, String responseId, String requestName, String responseName);
     
     // 친구 요청 조회 메서드
     List<FriendVO> checkRequest(String requestId);
@@ -29,4 +29,6 @@ public interface FriendService {
     int deleteFriend(String requestId, String responseId);
 
     RegisterVO getRegisterById(String memberId);
+
+	int deleteUser(String memberId);
 }

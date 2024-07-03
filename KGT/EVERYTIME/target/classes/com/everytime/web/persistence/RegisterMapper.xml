@@ -32,6 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectByRegisterId" resultMap="registerResultMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<select id="getNameById" resultType="String">
+		SELECT NAME FROM MEMBER WHERE MEMBER_ID = #{memberId}
+	</select>
 
 	<update id="update">
 		UPDATE MEMBER SET

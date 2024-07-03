@@ -103,4 +103,10 @@ public class RegisterServiceImple implements RegisterService {
 		log.info("updateNickname()");
 		return registerMapper.updateNickname(memberId, nickname);
 	}
+
+	@Override
+	public String getNameById(String memberId) {
+		log.info("getNameById()");
+		return registerMapper.getNameById(memberId);
+	}
 }

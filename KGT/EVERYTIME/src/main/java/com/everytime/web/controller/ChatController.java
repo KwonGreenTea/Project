@@ -55,7 +55,7 @@ public class ChatController {
 			model.addAttribute("chatList", chatList);
 			model.addAttribute("registerVO", registerVO);
 
-			return "chatting";
+			return "chat/chat";
 		}
 	}
 

@@ -2,6 +2,7 @@ package com.everytime.web.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,15 @@ public class PostServiceImple implements PostService {
     }
 
     @Override
-    public PostVO getPostById(int postId) {
+    public PostVO getPostById(@Param("boardId") int boardId, @Param("postId") int postId) {
         log.info("getPostById()");
-        return postMapper.selectOne(postId);
+        log.info("postId = " + postId + ", boardId = " + boardId);
+        log.info(log);
+        
+        PostVO result = postMapper.getPostById(postId, boardId);
+        log.info(result);
+        return result;
+        
     }
 
     @Override
@@ -46,9 +53,9 @@ public class PostServiceImple implements PostService {
     }
 
     @Override
-    public int deletePost(int postId) {
+    public int deletePost(int boardId, int postId) {
         log.info("deletePost()");
-        return postMapper.delete(postId);
+        return postMapper.delete(boardId, postId);
     }
 
     @Override

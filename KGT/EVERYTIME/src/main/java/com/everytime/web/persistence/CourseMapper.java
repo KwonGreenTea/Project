@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import com.everytime.web.domain.CourseVO;
-import com.everytime.web.domain.ReviewVO;
 
 @Mapper
 public interface CourseMapper {

@@ -20,4 +20,6 @@ public interface RegisterService {
 	int updatePassword(String memberId, String password);
 	int updateEmail(String memberId, String email);
 	int updateNickname(String memberId, String nickname);
+	
+	String getNameById(String memberId);
 }
